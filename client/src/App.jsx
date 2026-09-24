@@ -5,9 +5,12 @@ import "./index.css";
 function App() {
   const [query, setQuery] = useState("");
 
-  function handleClick(e) {
-    console.log("Question sent");
-    console.log(query);
+  async function handleClick(e) {
+    try {
+      console.log("Call api");
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   return (

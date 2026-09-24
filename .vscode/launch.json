@@ -1,0 +1,15 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "FastAPI",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "uvicorn",
+      "cwd": "${workspaceFolder}/server",
+      "args": ["main:app", "--reload"],
+      "python": "${workspaceFolder}/server/venv/bin/python",
+      "jinja": true
+    }
+  ]
+}
