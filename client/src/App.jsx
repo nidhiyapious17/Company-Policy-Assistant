@@ -2,15 +2,55 @@ import { useState } from "react";
 import "./App.css";
 import "./index.css";
 
+const API_URL = "http://localhost:8000";
+
 function App() {
   const [query, setQuery] = useState("");
+  const [file, setFile] = useState(null);
 
-  async function handleClick(e) {
+  async function handleClick() {
     try {
-      console.log("Call api");
+      const response = await fetch(`${API_URL}/api/chat`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ query }),
+      });
+      const data = await response.json();
+
+      console.log(data);
     } catch (error) {
       console.log(error);
     }
+  }
+
+  async function handleUploadClick() {
+    try {
+      if (!file) return;
+
+      const formData = new FormData();
+      formData.append("file", file);
+
+      const response = await fetch(`${API_URL}/api/upload_docs`, {
+        method: "POST",
+        body: formData,
+      });
+
+      if (response) {
+        console.log(response);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  function handleFileChange(e) {
+    const selectedFile = e.target.files?.[0];
+
+    if (!selectedFile) return;
+
+    setFile(selectedFile);
   }
 
   return (
@@ -35,6 +75,23 @@ function App() {
         </div>
 
         <div className="policy-form">
+          <label className="upload-label" htmlFor="policy-documents">
+            Upload documents
+          </label>
+          <input
+            id="policy-documents"
+            className="upload-input"
+            type="file"
+            onChange={handleFileChange}
+          />
+          <button
+            className="upload-button"
+            type="button"
+            onClick={handleUploadClick}
+            disabled={!file}
+          >
+            Upload
+          </button>
           <label className="policy-label" htmlFor="policy-question">
             Your question
           </label>
