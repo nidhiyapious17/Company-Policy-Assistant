@@ -1,6 +1,9 @@
 from fastapi import FastAPI, File, UploadFile
 from model.model import ChatRequest
 from fastapi.middleware.cors import CORSMiddleware
+from dotenv import load_dotenv
+
+load_dotenv()
 
 app = FastAPI()
 
